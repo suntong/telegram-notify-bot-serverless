@@ -1,4 +1,4 @@
-service: telegram-notify-bot-serverless
+service: telegram-notify-bot-test
 
 plugins:
   - serverless-offline
