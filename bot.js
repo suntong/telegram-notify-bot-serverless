@@ -18,14 +18,10 @@ const chunk = (str, size) =>
   Array.from({ length: Math.ceil(str.length / size) }, (v, i) =>
     str.slice(i * size, i * size + size)
   )
-;
 
-async function sendLongMsg(reply, message) {
-    //const message = '.'.repeat(4096 *3)
+const sendLongMsg = async (reply, message) => {
     for (const part of chunk(message, 4096))
 		await reply(part)
-    //chunk(message, 4096).map(async part =>
-		//await reply(part))
 }
 
 bot.help(async (ctx) => {
