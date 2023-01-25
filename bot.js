@@ -20,10 +20,12 @@ const chunk = (str, size) =>
   )
 ;
 
-async function sendLongMsg(reply) {
-    const longMsg = '.'.repeat(4096 *3)
-    for (const part of chunk(longMsg, 4096))
+async function sendLongMsg(reply, message) {
+    //const message = '.'.repeat(4096 *3)
+    for (const part of chunk(message, 4096))
 		await reply(part)
+    //chunk(message, 4096).map(async part =>
+		//await reply(part))
 }
 
 bot.help(async (ctx) => {
@@ -31,7 +33,7 @@ bot.help(async (ctx) => {
     //for(let i =1; i <= 5; i++) await ctx.replyWithMarkdown(`Reply - *${i}*`)
     const s = '.'.repeat(4096)
     //for(let i =1; i <= 3; i++) await ctx.replyWithMarkdown(s)
-    await sendLongMsg(ctx.reply)
+    await sendLongMsg(ctx.reply, '.'.repeat(4096 *3))
     return ctx.replyWithMarkdown(helpMsg);
 });
 
