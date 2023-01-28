@@ -10,6 +10,7 @@ const getResponseHeaders = () => {
 
 module.exports.hello = async event => {
   try {
+    console.log(JSON.stringify(event))
 
     const body = JSON.parse(event.body);
     console.log(body);

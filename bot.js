@@ -9,6 +9,9 @@ const helpMsg = `The bot just repeats anything you say in the chat.
     /whoami - Show information about the current user
     /help - Show this help page`;
 
+// sleep, in sec
+const sleep = t => new Promise(resolve => setTimeout(resolve, t*1000))
+
 bot.start((ctx) => {
     return ctx.reply(`Hello from Lambda, ${ctx.from.first_name ? ctx.from.first_name : 'friend'}! Use /help to view available commands.`);
 });
@@ -26,7 +29,12 @@ const sendLongMsg = async (reply, message) => {
 
 bot.help(async (ctx) => {
     //for(let i =1; i <= 3; i++) await ctx.reply(`Reply - ${i}`)
-    //for(let i =1; i <= 5; i++) await ctx.replyWithMarkdown(`Reply - *${i}*`)
+    for(let i =1; i <= 5; i++) {
+        const { message_id } = await ctx.replyWithMarkdown(`Reply - *${i}*...`)
+        await sleep(1)
+        // https://telegraf.js.org/classes/Context.html#deleteMessage
+        await ctx.deleteMessage(message_id)
+    }
     const s = '.'.repeat(4096)
     //for(let i =1; i <= 3; i++) await ctx.replyWithMarkdown(s)
     await sendLongMsg(ctx.reply, '.'.repeat(4096 *3))
