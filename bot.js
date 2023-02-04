@@ -1,20 +1,20 @@
-const { Telegraf } = require('telegraf');
+const { Telegraf } = require('telegraf')
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Telegraf(process.env.BOT_TOKEN)
 
 const helpMsg = `The bot just repeats anything you say in the chat.
 \n*Command reference:*
     /start - Start bot
     /ping - *Pong!*
     /whoami - Show information about the current user
-    /help - Show this help page`;
+    /help - Show this help page`
 
 // sleep, in sec
 const sleep = t => new Promise(resolve => setTimeout(resolve, t*1000))
 
 bot.start((ctx) => {
-    return ctx.reply(`Hello from Lambda, ${ctx.from.first_name ? ctx.from.first_name : 'friend'}! Use /help to view available commands.`);
-});
+    return ctx.reply(`Hello from Lambda, ${ctx.from.first_name ? ctx.from.first_name : 'friend'}! Use /help to view available commands.`)
+})
 
 // chunk util
 const chunk = (str, size) =>
@@ -22,9 +22,9 @@ const chunk = (str, size) =>
     str.slice(i * size, i * size + size)
   )
 
-const sendLongMsg = async (reply, message) => {
+const sendLongMsg = async (ctx, message) => {
     for (const part of chunk(message, 4096))
-		await reply(part)
+		await ctx.reply(part)
 }
 
 bot.help(async (ctx) => {
@@ -37,21 +37,21 @@ bot.help(async (ctx) => {
     }
     const s = '.'.repeat(4096)
     //for(let i =1; i <= 3; i++) await ctx.replyWithMarkdown(s)
-    await sendLongMsg(ctx.reply, '.'.repeat(4096 *3))
-    return ctx.replyWithMarkdown(helpMsg);
-});
+    await sendLongMsg(ctx, '.'.repeat(4096 *3))
+    return ctx.replyWithMarkdown(helpMsg)
+})
 
 bot.command('whoami', (ctx) => {
-    let userInfo = JSON.stringify(ctx.from);
-    return ctx.reply(`User info: ${userInfo}`);
+    let userInfo = JSON.stringify(ctx.from)
+    return ctx.reply(`User info: ${userInfo}`)
 })
 
 bot.command('ping', (ctx) => {
-    return ctx.replyWithMarkdown('*Pong!*');
+    return ctx.replyWithMarkdown('*Pong!*')
 })
 
 bot.on('text', (ctx) => {
-    return ctx.reply(ctx.message.text);
+    return ctx.reply(ctx.message.text)
 })
 
 module.exports = {
