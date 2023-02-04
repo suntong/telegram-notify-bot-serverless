@@ -7,3 +7,4 @@ jspm_packages
 
 # Token file
 serverless.env.yml
+package-lock.json
